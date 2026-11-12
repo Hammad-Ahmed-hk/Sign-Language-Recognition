@@ -12,6 +12,8 @@ Recognizes hand signs from your webcam in real time.
 ```
 pip install -r requirements.txt
 ```
+`mediapipe` is pinned below 0.10.30 because the code uses the legacy
+`mp.solutions.hands` API, which newer releases removed.
 
 ## Use it
 ```
@@ -33,7 +35,21 @@ python recognize.py
 - Pick signs that look clearly different at first (e.g. A, B, L, V).
 - Re-run `collect_data.py` for a sign that gets confused, then retrain.
 
+## Files
+| File | Purpose |
+|---|---|
+| `collect_data.py` | Record landmark samples for one sign into `data.csv` |
+| `train.py` | Train the Random Forest and save `model.pkl` |
+| `recognize.py` | Live webcam recognition |
+| `common.py` | Hand detection and landmark-to-feature conversion |
+
+`data.csv` and `model.pkl` are created by you and are git-ignored.
+
 ## Limits (good to understand)
+- The accuracy printed by `train.py` comes from a random 80/20 split of
+  frames. Frames from the same recording are almost identical, so that number
+  is optimistic. Test the real thing live, or record a separate session for
+  testing.
 - Works for **static** signs (a held hand shape). Moving signs like J, Z or
   most words need a sequence model (e.g. LSTM over many frames).
 - One hand only. Real sign languages also use face and body.

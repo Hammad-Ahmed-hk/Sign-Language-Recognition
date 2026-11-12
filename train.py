@@ -3,6 +3,8 @@
 Usage: python train.py
 """
 import csv
+import os
+import sys
 import joblib
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -10,6 +12,9 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 # 1. Load the CSV made by collect_data.py
+if not os.path.exists("data.csv"):
+    sys.exit("data.csv not found. Record signs first: python collect_data.py A")
+
 labels, rows = [], []
 with open("data.csv") as f:
     reader = csv.reader(f)
@@ -21,6 +26,8 @@ with open("data.csv") as f:
 X = np.array(rows)
 y = np.array(labels)
 print(f"Loaded {len(X)} samples, signs: {sorted(set(y))}")
+if len(set(y)) < 2:
+    sys.exit("Need at least two different signs to train. Record another sign.")
 
 # 2. Keep 20% aside to check the model on examples it has never seen
 X_train, X_test, y_train, y_test = train_test_split(

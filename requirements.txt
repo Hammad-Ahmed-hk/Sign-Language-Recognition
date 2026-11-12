@@ -1,5 +1,7 @@
 opencv-python
-mediapipe
+# The scripts use the legacy mp.solutions.hands API, which was removed from
+# newer mediapipe releases (0.10.32 no longer has it). Stay on an older one.
+mediapipe>=0.10,<0.10.30
 scikit-learn
 numpy
 joblib

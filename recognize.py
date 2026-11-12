@@ -3,11 +3,15 @@
 Usage: python recognize.py      (press q to quit)
 """
 from collections import Counter, deque
+import os
+import sys
 import cv2
 import joblib
 import numpy as np
 from common import make_detector, find_hand, landmarks_to_features, mp_hands, mp_draw
 
+if not os.path.exists("model.pkl"):
+    sys.exit("model.pkl not found. Train first: python train.py")
 model = joblib.load("model.pkl")
 detector = make_detector()
 cap = cv2.VideoCapture(0)
